@@ -1,0 +1,26 @@
+services:
+  # Servidor do Banco de Dados PostgreSQL
+  postgres-db:
+    image: postgres:15-alpine
+    container_name: carrinho-postgres
+    restart: always
+    environment:
+      POSTGRES_USER: matheus
+      POSTGRES_PASSWORD: root123
+      POSTGRES_DB: projeto_carrinho
+    ports:
+      - "5436:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+  # Servidor de E-mail Fake (MailHog) para testes locais
+  mailhog:
+    image: mailhog/mailhog:latest
+    container_name: carrinho-mailhog
+    restart: always
+    ports:
+      - "1025:1025" # Porta SMTP para o Node.js se conectar
+      - "8025:8025" # Interface Web para você ver os e-mails no navegador
+
+volumes:
+  postgres_data:
