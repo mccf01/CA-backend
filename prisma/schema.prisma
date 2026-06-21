@@ -1,0 +1,142 @@
+generator client {
+  provider = "prisma-client"
+  output   = "../src/generated/prisma"
+}
+
+datasource db {
+	provider = "postgresql"
+}
+
+enum NivelPermissao {
+  PUBLICADOR
+  SERVO
+  ANCIAO
+  ROOT
+}
+
+enum StatusUsuarioCriado {
+  INATIVO
+  PENDENTE
+  ATIVO
+}
+
+enum DiaSemana {
+  DOMINGO
+  SEGUNDA
+  TERCA
+  QUARTA
+  QUINTA
+  SEXTA
+  SABADO
+}
+
+enum AgendamentoStatus {
+  PENDENTE
+  CONFIRMADO
+  CANCELADO
+}
+
+enum AcompanhanteStatus {
+  PENDENTE
+  ACEITO
+  REJEITADO
+}
+
+model Usuario {
+  id                String                   @id @default(uuid())
+  nome              String
+  email             String                   @unique
+  senha             String?
+  perfil            NivelPermissao           @default(PUBLICADOR)
+  status            StatusUsuarioCriado      @default(PENDENTE)
+
+  criadoPor         String?
+  criador           Usuario?                 @relation("CriacaoUsuarios", fields: [criadoPor], references: [id])
+  usuariosCriados   Usuario[]                @relation("CriacaoUsuarios")
+
+  locaisCriados     Local[]                  @relation("CriadorLocal")
+  pontosCriados     Ponto[]                  @relation("CriadorPonto")
+  horariosCriados   HorariosDisponiveis[]    @relation("CriadorHorario")
+
+  agendamentos      Agendamentos[]           @relation("PublicadorAgendamento")
+  convitesRecebidos AcompanhanteAgendamento[] @relation("AcompanhanteConvite")
+
+  createdAt         DateTime                 @default(now())
+  updatedAt         DateTime                 @updatedAt
+}
+
+model Local {
+  id         String   @id @default(uuid())
+  nome       String
+  descricao  String?
+  pontos     Ponto[]
+
+  criadoPor  String
+  criador    Usuario  @relation("CriadorLocal", fields: [criadoPor], references: [id])
+
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+}
+
+model Ponto {
+  id         String                @id @default(uuid())
+  nome       String
+  descricao  String?
+  horarios   HorariosDisponiveis[]
+
+  localId    String
+  local      Local                 @relation(fields: [localId], references: [id])
+
+  criadoPor  String
+  criador    Usuario               @relation("CriadorPonto", fields: [criadoPor], references: [id])
+
+  createdAt  DateTime              @default(now())
+  updatedAt  DateTime              @updatedAt
+}
+
+model HorariosDisponiveis {
+  id             String          @id @default(uuid())
+  pontoId        String
+  ponto          Ponto           @relation(fields: [pontoId], references: [id])
+
+  recorrente     Boolean         @default(false)
+  dataEspecifica DateTime?
+  diaSemana      DiaSemana?
+
+  horaInicio     String
+  horaFim        String
+
+  agendamentos   Agendamentos[]
+
+  criadoPor      String
+  criador        Usuario         @relation("CriadorHorario", fields: [criadoPor], references: [id])
+
+  createdAt      DateTime        @default(now())
+  updatedAt      DateTime        @updatedAt
+}
+
+model Agendamentos {
+  id            String                      @id @default(uuid())
+  publicadorId  String
+  publicador    Usuario                     @relation("PublicadorAgendamento", fields: [publicadorId], references: [id])
+  horarioId     String
+  horario       HorariosDisponiveis          @relation(fields: [horarioId], references: [id])
+  dataAgendada  DateTime
+  status        AgendamentoStatus           @default(PENDENTE)
+  acompanhantes AcompanhanteAgendamento[]   
+  createdAt     DateTime                    @default(now())
+  updatedAt     DateTime                    @updatedAt
+}
+
+model AcompanhanteAgendamento {
+  id            String              @id @default(uuid())
+  agendamentoId String
+  agendamento   Agendamentos        @relation(fields: [agendamentoId], references: [id], onDelete: Cascade)
+  usuarioId     String
+  usuario       Usuario             @relation("AcompanhanteConvite", fields: [usuarioId], references: [id])
+  status        AcompanhanteStatus  @default(PENDENTE)
+  createdAt     DateTime            @default(now())
+  updatedAt     DateTime            @updatedAt
+
+  @@unique([agendamentoId, usuarioId])
+}
