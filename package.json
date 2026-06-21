@@ -6,6 +6,8 @@
   "scripts": {
     "dev": "tsx watch src/index.ts",
     "resetDB": "sudo docker compose down -v && sudo docker compose up -d",
+    "applyPrisma": "npx prisma db push",
+    "resetPrisma": "npx prisma migrate reset",
     "build": "rimraf dist && tsc",
     "start": "node dist/server.js",
     "test": "jest"
