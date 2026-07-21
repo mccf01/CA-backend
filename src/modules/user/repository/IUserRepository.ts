@@ -14,11 +14,19 @@ export interface IUpdateUsuarioDTO {
     status?: StatusUsuarioCriado;
 };
 
+export interface IFindAllUsuarioDTO {
+    nome?: string;
+    perfil?: NivelPermissao;
+    status?: StatusUsuarioCriado;
+    take?: number,
+    skip?: number,
+};
+
 export interface IUsuarioRepository {
     create(data: ICreateUsuarioDTO): Promise<Usuario>;
     update(id: string, data: IUpdateUsuarioDTO): Promise<Usuario>;
     delete(id: string): Promise<Usuario>;
     findByEmail(email: string): Promise<Usuario | null>;
     findById(id: string): Promise<Usuario | null>;
-    findAll(params?: {skip?: number; take?: number}): Promise<Usuario[]>
+    findAll(filters?: IFindAllUsuarioDTO): Promise<Usuario[]>;
 };
