@@ -54,6 +54,9 @@ export class PrismaUserRepository implements IUsuarioRepository {
                 perfil: filters?.perfil,
                 status: filters?.status,
             },
+            take: filters?.take ?? 100,
+            skip: filters?.skip ?? 0,
+            orderBy: { createdAt: 'desc' },
         });
     }
     

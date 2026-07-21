@@ -166,17 +166,22 @@ npm run dev
 
 # Scripts
 
-| Script                | Descrição                                                                    |
-| --------------------- | ---------------------------------------------------------------------------- |
-| `npm run dev`         | Executa o servidor em modo de desenvolvimento.                               |
-| `npm run build`       | Compila o projeto TypeScript para produção.                                  |
-| `npm run start`       | Executa a versão compilada da aplicação.                                     |
-| `npm run test`        | Executa a suíte de testes.                                                   |
-| `npm run lint`        | Analisa o código com o ESLint em busca de problemas.                         |
-| `npm run lint:fix`    | Corrige automaticamente problemas identificados pelo ESLint quando possível. |
-| `npm run applyPrisma` | Aplica o schema do Prisma ao banco de dados.                                 |
-| `npm run resetPrisma` | Reseta o banco de dados utilizando o Prisma Migrate.                         |
-| `npm run resetDB`     | Remove e recria os containers Docker do ambiente local.                      |
+| Script | Descrição |
+|--------|-----------|
+| `npm run dev` | Executa o servidor em modo de desenvolvimento. |
+| `npm run build` | Compila o projeto TypeScript para produção. |
+| `npm run start` | Executa a versão compilada da aplicação. |
+| `npm run test` | Executa a suíte de testes. |
+| `npm run lint` | Analisa o código com o ESLint em busca de problemas. |
+| `npm run lint:fix` | Corrige automaticamente os problemas encontrados pelo ESLint, quando possível. |
+| `npm run applyPrisma` | Aplica o schema do Prisma ao banco de dados. |
+| `npm run resetPrisma` | Reseta o banco de dados utilizando o Prisma Migrate. |
+| `npm run resetDB` | Remove e recria os containers Docker do ambiente local. |
+| `npm run clean:docker` | Remove volumes Docker não utilizados para liberar espaço em disco. |
+| `npm run clean:cache` | Remove caches desnecessários do Node.js. |
+| `npm run clean:all` | Executa uma limpeza completa, removendo os caches do Node.js e os volumes Docker não utilizados. |
+
+
 
 ---
 
