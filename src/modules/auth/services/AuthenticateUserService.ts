@@ -1,6 +1,7 @@
 import { IUsuarioRepository } from "@/modules/user/repository/IUserRepository";
+import { StatusUsuarioCriado } from "@prisma/client";
 import bcrypt from "bcryptjs";
-import jwt from "jsonwebtoken";
+import jwt, { type SignOptions } from "jsonwebtoken";
 import "dotenv/config";
 
 interface IRequestDTO {
@@ -24,11 +25,13 @@ export class AuthenticateUserService {
             throw new Error("E-mail ou senha incorretos");
         }
 
-        if (usuario.status === "INATIVO" || usuario.status === "PENDENTE") {
+        if (usuario.status !== StatusUsuarioCriado.ATIVO) {
             throw new Error("E-mail ou senha incorretos");
         }
 
         const secret = process.env.JWT_SECRET;
+
+        const expiresIn = process.env.JWT_EXPIRES_IN || "14d";
 
         if (!secret) {
             throw new Error("JWT_SECRET não definido");
@@ -39,6 +42,7 @@ export class AuthenticateUserService {
             secret,
             {
                 subject: usuario.id,
+                expiresIn: expiresIn as NonNullable<SignOptions["expiresIn"]>,
             }
         );
 
