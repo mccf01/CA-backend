@@ -1,5 +1,5 @@
 import { IUsuarioRepository } from "@/modules/user/repository/IUserRepository";
-import { StatusUsuarioCriado } from "@prisma/client";
+import { StatusUsuarioCriado } from "@prisma/enums";
 import bcrypt from "bcryptjs";
 import jwt, { type SignOptions } from "jsonwebtoken";
 import "dotenv/config";
