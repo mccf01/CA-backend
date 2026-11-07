@@ -148,8 +148,6 @@ describe('AuthenticateUserService', () => {
         expect(result.usuario.email).toBe(usuarioMockValido.email);
         expect(result.usuario.id).toBe(usuarioMockValido.id);
         expect(result.usuario.perfil).toBe(usuarioMockValido.perfil);
-
-        console.info(result);
     });
 
 });
