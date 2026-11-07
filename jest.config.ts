@@ -3,7 +3,7 @@ import type { Config } from 'jest';
 const config: Config = {
     preset: 'ts-jest',
     testEnvironment: 'node',
-    setupFiles: ['<rootDir> /test/setup/jest.setup.ts'],
+    setupFiles: ['<rootDir>/test/setup/jest.setup.ts'],
     moduleNameMapper: {
         '^@/(.*)$': '<rootDir>/src/$1',
         '^@prisma/(.*)$': '<rootDir>/prisma/generated/$1',
