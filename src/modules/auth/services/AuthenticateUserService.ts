@@ -15,7 +15,7 @@ export class AuthenticateUserService {
     async execute({ email, senha }: IRequestDTO) {
         const usuario = await this.usuarioRepository.findByEmail(email);
         
-        if (!usuario|| !usuario.senha) {
+        if (!usuario || !usuario.senha) {
             throw new Error("E-mail ou senha incorretos");
         }
 

@@ -124,9 +124,7 @@ describe('AuthenticateUserService', () => {
             ).rejects.toThrow("JWT_SECRET não definido");
         } finally {
             if (jwtSecretOriginal !== undefined) {
-                process.env.JWT_SECRET = jwtSecretOriginal; // Restaura a variável de ambiente JWT_SECRET para o valor original após o teste, pois não afeta outros testes, mas é uma boa prática restaurar o estado original.
-            } else {
-                delete process.env.JWT_SECRET; // Remove a variável de ambiente JWT_SECRET se ela não estava definida originalmente.
+                process.env.JWT_SECRET = jwtSecretOriginal; // Restaura a variável de ambiente JWT_SECRET para o valor original após o teste
             }
         }
     });
